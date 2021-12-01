@@ -10,6 +10,9 @@ const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
 const check = document.querySelector('.check');
+const timerMins = document.querySelector('.minutes');
+const timerSecsTens = document.querySelector('.seconds-tens');
+const timerSecsOnes = document.querySelector('.seconds-ones');
 
 function startTimer() {
   // console.log(start);
@@ -62,7 +65,10 @@ function updateTime() {
     }
   }
 
-  console.log(`${minutes}:${secondsTens}${secondsOnes}`);
+  // Update the DOM
+  timerMins.textContent = minutes;
+  timerSecsTens.textContent = secondsTens;
+  timerSecsOnes.textContent = secondsOnes;
 }
 
 start.addEventListener('click', startTimer);
