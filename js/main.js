@@ -6,6 +6,7 @@ let minutes = 1;
 let intervalID;
 
 const counter = document.querySelector('.timer-text');
+const counterInput = document.querySelector('.timer-input');
 const start = document.querySelector('.start');
 const stop = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
@@ -15,7 +16,6 @@ const timerSecsTens = document.querySelector('.seconds-tens');
 const timerSecsOnes = document.querySelector('.seconds-ones');
 
 function startTimer() {
-  // console.log(start);
   start.classList.add('hidden');
   stop.classList.remove('hidden');
   countdown();
@@ -28,13 +28,19 @@ function stopTimer() {
 }
 
 function editTimer() {
+  //Update view
   gear.classList.add('hidden');
   check.classList.remove('hidden');
+  counter.classList.add('hidden');
+  counterInput.classList.remove('hidden');
 }
 
 function saveEdit() {
+  //Update view
   check.classList.add('hidden');
   gear.classList.remove('hidden');
+  counterInput.classList.add('hidden');
+  counter.classList.remove('hidden');
 }
 
 function countdown() {
