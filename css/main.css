@@ -1,8 +1,17 @@
+@font-face {
+  font-family: 'Bebas Neue - Book';
+  src:  url('../fonts/bebasneue-book-webfont.woff2') format('woff2'),
+        url('../fonts/bebasneue-book-webfont.woff') format('woff');
+}
+
 /* CUSTOM PROPERTIES */
 :root {
   --clr-background: #2B2A30;
   --clr-red: #9d0000;
   --clr-green: #00aa51;
+
+  --ff-start-stop: 'Montserrat', sans-serif;
+  --ff-timer-amount: 'Bebas Neue - Book', Courier, monospace;  
 }
 
 
@@ -32,6 +41,8 @@ dd {
 body {
   min-height: 100vh;
   line-height: 1.5;
+  background-color: var(--clr-background);
+  color: #fff;
 }
 
 /* Make images easier to work with */
