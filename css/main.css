@@ -11,7 +11,7 @@
   --clr-green: #00aa51;
 
   --ff-start-stop: 'Montserrat', sans-serif;
-  --ff-timer-amount: 'Bebas Neue - Book', Courier, monospace;  
+  --ff-timer-counter: 'Bebas Neue - Book', Courier, monospace;  
 }
 
 
@@ -39,10 +39,12 @@ dd {
 
 /* Set core body defaults */
 body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
   line-height: 1.5;
   background-color: var(--clr-background);
-  color: #fff;
 }
 
 /* Make images easier to work with */
@@ -58,4 +60,40 @@ button,
 textarea,
 select {
   font: inherit;
+}
+
+/* UTILITY CLASSES */
+.hidden {
+  display: none;
+}
+
+/* TIMER */
+
+.timer {
+  width: 100%;
+  max-width: 30rem;
+  background-color: #fff;
+  text-align: center;
+  padding: 3.5rem;
+  border-radius: 10000000rem;
+}
+
+.timer-text {
+  font-size: 12.25rem;
+  font-family: var(--ff-timer-counter);
+}
+
+.start-stop {
+  font-family: var(--ff-start-stop);
+  text-transform: uppercase;
+  letter-spacing: .5rem;
+}
+
+.gear {
+  margin-top: 2rem;
+  margin-inline: auto;
+}
+
+.gear svg {
+  fill: #585858;
 }
