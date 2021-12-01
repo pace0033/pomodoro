@@ -15,6 +15,17 @@ const timerMins = document.querySelector('.minutes');
 const timerSecsTens = document.querySelector('.seconds-tens');
 const timerSecsOnes = document.querySelector('.seconds-ones');
 
+// Combines tens and ones place to return a whole number
+function combineSeconds(tens, ones) {
+  return parseFloat(tens.toString() + ones.toString());
+}
+
+function splitSeconds(seconds) {
+  let returnArray = [];
+  console.log(`Ones: ${Math.floor(seconds % 10)}`);
+  console.log(`Tens: ${Math.floor(seconds / 10 % 10)}`);
+}
+
 function startTimer() {
   start.classList.add('hidden');
   stop.classList.remove('hidden');
@@ -28,11 +39,29 @@ function stopTimer() {
 }
 
 function editTimer() {
+  //Update input values with current time
+  const minutesInput = document.getElementById('minutes-input');
+  const secondsInput = document.getElementById('seconds-input');
+  minutesInput.value = minutes;
+
+  //Set rules to add leading 0 if seconds < 10
+  if (secondsTens === 0) {  
+    secondsInput.value = '0' + secondsOnes;
+  } else {
+    secondsInput.value = combineSeconds(secondsTens, secondsOnes);
+  }
+
   //Update view
   gear.classList.add('hidden');
   check.classList.remove('hidden');
   counter.classList.add('hidden');
   counterInput.classList.remove('hidden');
+
+  if (secondsInput.value < 10) {
+    secondsInput.value.toString().padStart(2, '0');
+  }
+
+  console.log(splitSeconds(secondsInput.value));
 }
 
 function saveEdit() {
