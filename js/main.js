@@ -1,8 +1,9 @@
 'use strict'
 
-let secondsOnes;
-let secondsTens;
-let minutes;
+let secondsOnes = 3
+let secondsTens = 1;
+let minutes = 1;
+let intervalID;
 
 const counter = document.querySelector('.timer-text');
 const start = document.querySelector('.start');
@@ -14,11 +15,13 @@ function startTimer() {
   // console.log(start);
   start.classList.add('hidden');
   stop.classList.remove('hidden');
+  countdown();
 }
 
 function stopTimer() {
   stop.classList.add('hidden');
   start.classList.remove('hidden');
+  clearInterval(intervalID);
 }
 
 function editTimer() {
@@ -29,6 +32,37 @@ function editTimer() {
 function saveEdit() {
   check.classList.add('hidden');
   gear.classList.remove('hidden');
+}
+
+function countdown() {
+  intervalID = setInterval(updateTime, 1000);
+}
+
+function updateTime() {
+  // If minutes & seconds reach zero, stop timer
+  if (secondsOnes === 0 && secondsTens === 0 && minutes === 0) {
+    stopTimer();
+    return;
+  }
+
+  // Handle minutes
+  if (secondsOnes === 0 && secondsTens === 0) {
+    minutes -= 1;
+    secondsTens = 5;
+    secondsOnes = 9;
+  // Handle seconds
+  } else if (secondsOnes > 0) { 
+    secondsOnes -= 1;
+  // Handle when seconds ones place is zero
+  } else { 
+    secondsOnes = 9;
+    //Update tens place
+    if (secondsTens > 0) {
+      secondsTens -= 1;
+    }
+  }
+
+  console.log(`${minutes}:${secondsTens}${secondsOnes}`);
 }
 
 start.addEventListener('click', startTimer);
