@@ -72,10 +72,15 @@ select {
 .timer {
   width: 100%;
   max-width: 30rem;
-  background-color: #fff;
   text-align: center;
   padding: 3.5rem;
   border-radius: 10000000rem;
+  background-color: #17171a;
+  color: #fff;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .timer-text {
@@ -83,17 +88,19 @@ select {
   font-family: var(--ff-timer-counter);
 }
 
-.start-stop {
+.start,
+.stop {
   font-family: var(--ff-start-stop);
   text-transform: uppercase;
   letter-spacing: .5rem;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
-.gear {
+.gear,
+.check {
   margin-top: 2rem;
   margin-inline: auto;
-}
-
-.gear svg {
-  fill: #585858;
 }
