@@ -1,6 +1,6 @@
 'use strict'
 
-let secondsOnes = 3
+let secondsOnes = 3;
 let secondsTens = 1;
 let minutes = 1;
 let intervalID;
