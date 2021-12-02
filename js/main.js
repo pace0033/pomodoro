@@ -44,6 +44,9 @@ function stopTimer() {
 }
 
 function editTimer() {
+  //Hide start button
+  start.classList.add('hidden-opacity');
+
   //Update input values with current time
   minutesInput.value = minutes;
 
@@ -67,6 +70,7 @@ function saveEdit() {
   gear.classList.remove('hidden');
   counterInput.classList.add('hidden');
   counter.classList.remove('hidden');
+  start.classList.remove('hidden-opacity');
 
   //Update JS global variables with input
   minutes = minutesInput.value;
@@ -89,6 +93,7 @@ function updateTime() {
   // If minutes & seconds reach zero, stop timer
   if (secondsOnes === 0 && secondsTens === 0 && minutes === 0) {
     stopTimer();
+    window.alert('Timer has completed!');
     return;
   }
 
@@ -115,6 +120,8 @@ function updateTime() {
   timerSecsOnes.textContent = secondsOnes;
 }
 
+
+// Event Listeners
 start.addEventListener('click', startTimer);
 stop.addEventListener('click', stopTimer);
 gear.addEventListener('click', editTimer);

@@ -92,7 +92,7 @@ input[type=number] {
 }
 
 .timer-text {
-  font-size: 12.25rem;
+  font-size: 12rem;
   font-family: var(--ff-timer-counter);
 }
 
@@ -142,4 +142,8 @@ input {
 /* UTILITY CLASSES */
 .hidden {
   display: none;
+}
+
+.hidden-opacity {
+  opacity: 0;
 }
