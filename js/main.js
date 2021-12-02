@@ -1,8 +1,8 @@
 'use strict'
 
-let secondsOnes = 3;
-let secondsTens = 1;
-let minutes = 1;
+let secondsOnes = 0;
+let secondsTens = 0;
+let minutes = 0;
 let intervalID;
 
 const counter = document.querySelector('.timer-text');
@@ -14,6 +14,8 @@ const check = document.querySelector('.check');
 const timerMins = document.querySelector('.minutes');
 const timerSecsTens = document.querySelector('.seconds-tens');
 const timerSecsOnes = document.querySelector('.seconds-ones');
+const minutesInput = document.getElementById('minutes-input');
+const secondsInput = document.getElementById('seconds-input');
 
 // Combines tens and ones place to return a whole number
 function combineSeconds(tens, ones) {
@@ -22,8 +24,11 @@ function combineSeconds(tens, ones) {
 
 function splitSeconds(seconds) {
   let returnArray = [];
-  console.log(`Ones: ${Math.floor(seconds % 10)}`);
-  console.log(`Tens: ${Math.floor(seconds / 10 % 10)}`);
+
+  returnArray.push(Math.floor(seconds / 10 % 10)); // Tens place index[0]
+  returnArray.push(Math.floor(seconds % 10)); // Ones place //index[1]
+
+  return returnArray;
 }
 
 function startTimer() {
@@ -40,8 +45,6 @@ function stopTimer() {
 
 function editTimer() {
   //Update input values with current time
-  const minutesInput = document.getElementById('minutes-input');
-  const secondsInput = document.getElementById('seconds-input');
   minutesInput.value = minutes;
 
   //Set rules to add leading 0 if seconds < 10
@@ -56,12 +59,6 @@ function editTimer() {
   check.classList.remove('hidden');
   counter.classList.add('hidden');
   counterInput.classList.remove('hidden');
-
-  if (secondsInput.value < 10) {
-    secondsInput.value.toString().padStart(2, '0');
-  }
-
-  console.log(splitSeconds(secondsInput.value));
 }
 
 function saveEdit() {
@@ -70,6 +67,18 @@ function saveEdit() {
   gear.classList.remove('hidden');
   counterInput.classList.add('hidden');
   counter.classList.remove('hidden');
+
+  //Update JS global variables with input
+  minutes = minutesInput.value;
+  //Extract tens and ones place of seconds
+  const secondsSplitArr = splitSeconds(secondsInput.value);
+  secondsTens = secondsSplitArr[0];
+  secondsOnes = secondsSplitArr[1];
+
+  // Update the DOM
+  timerMins.textContent = minutes;
+  timerSecsTens.textContent = secondsTens;
+  timerSecsOnes.textContent = secondsOnes;
 }
 
 function countdown() {
