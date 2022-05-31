@@ -1,118 +1,110 @@
-'use strict';
+/* --- GLOBAL VARIABLES --- */
 // Default starting values
-let secondsOnes = 0;
-let secondsTens = 0;
+let seconds = 0;
 let minutes = 15;
 let intervalID;
-const counter = document.querySelector('.timer-text');
+// DOM Elements
 const counterInput = document.querySelector('.timer-input');
+const minutesInput = document.getElementById('minutes-input');
+const secondsInput = document.getElementById('seconds-input');
 const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
 const check = document.querySelector('.check');
-const timerMins = document.querySelector('.minutes');
-const timerSecsTens = document.querySelector('.seconds-tens');
-const timerSecsOnes = document.querySelector('.seconds-ones');
-const minutesInput = document.getElementById('minutes-input');
-const secondsInput = document.getElementById('seconds-input');
-// Combines tens and ones place to return a whole number
-function combineSeconds(tens, ones) {
-    return parseInt(tens.toString() + ones.toString());
-}
-function splitSeconds(seconds) {
-    let returnArray = [];
-    returnArray.push(Math.floor(seconds / 10 % 10)); // Tens place index[0]
-    returnArray.push(Math.floor(seconds % 10)); // Ones place //index[1]
-    return returnArray;
-}
+/* --- TIMER FUNCTIONS --- */
 function startTimer() {
     startButton.classList.add('hidden');
     stopButton.classList.remove('hidden');
-    countdown();
+    intervalID = setInterval(countdown, 1000);
 }
 function stopTimer() {
     stopButton.classList.add('hidden');
     startButton.classList.remove('hidden');
     clearInterval(intervalID);
 }
-function editTimer() {
-    //Hide start button
-    startButton.classList.add('hidden-opacity');
-    //Update input values with current time
-    minutesInput.value = minutes.toString();
-    //Set rules to add leading 0 if seconds < 10
-    if (secondsTens === 0) {
-        secondsInput.value = '0' + secondsOnes;
+function updateTimer() {
+    // add leading 0s to seconds input if necessary
+    if (seconds < 10) {
+        secondsInput.value = (seconds === 0) ? '00' : '0' + seconds;
     }
     else {
-        secondsInput.value = combineSeconds(secondsTens, secondsOnes).toString();
+        secondsInput.value = seconds.toString();
     }
-    //Update view
+    // add leading 0s to minutes input if necessary
+    if (minutes < 10) {
+        minutesInput.value = (minutes === 0) ? '00' : '0' + minutes;
+    }
+    else {
+        minutesInput.value = minutes.toString();
+    }
+}
+function editTimer() {
+    // Hide start button
+    startButton.classList.add('hidden-opacity');
+    // Update view
     gear.classList.add('hidden');
     check.classList.remove('hidden');
-    counter.classList.add('hidden');
-    counterInput.classList.remove('hidden');
+    // Add dotted border under inputs
+    minutesInput.style.borderBottom = '3px dotted #fff';
+    secondsInput.style.borderBottom = '3px dotted #fff';
+    // Enable inputs
+    minutesInput.disabled = false;
+    secondsInput.disabled = false;
 }
 function saveEdit() {
     //Update view
     check.classList.add('hidden');
     gear.classList.remove('hidden');
-    counterInput.classList.add('hidden');
-    counter.classList.remove('hidden');
     startButton.classList.remove('hidden-opacity');
-    //Update JS global variables with input
+    // Disable inputs
+    minutesInput.disabled = true;
+    secondsInput.disabled = true;
+    // Handle empty inputs
+    if (minutesInput.value.length === 0)
+        minutesInput.value = '0';
+    if (secondsInput.value.length === 0)
+        secondsInput.value = '0';
+    // Handle out-of-range inputs
+    if (parseInt(minutesInput.value) > 59)
+        minutesInput.value = '59';
+    if (parseInt(secondsInput.value) > 59)
+        secondsInput.value = '59';
+    // Update JS global variables with input
     minutes = parseInt(minutesInput.value);
-    //Extract tens and ones place of seconds
-    const secondsSplitArr = splitSeconds(parseInt(secondsInput.value));
-    secondsTens = secondsSplitArr[0];
-    secondsOnes = secondsSplitArr[1];
+    seconds = parseInt(secondsInput.value);
+    // Remove dotted border under inputs
+    minutesInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
+    secondsInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
     // Update the DOM
-    timerMins.textContent = minutes.toString();
-    timerSecsTens.textContent = secondsTens.toString();
-    timerSecsOnes.textContent = secondsOnes.toString();
+    updateTimer();
 }
 function countdown() {
-    intervalID = setInterval(updateTime, 1000);
-}
-function updateTime() {
     // If minutes & seconds reach zero, stop timer
-    if (secondsOnes === 0 && secondsTens === 0 && minutes === 0) {
+    if (seconds === 0 && minutes === 0) {
         stopTimer();
         window.alert('Timer has completed!');
+        // exit function block if timer has finished
         return;
     }
-    // Handle minutes
-    if (secondsOnes === 0 && secondsTens === 0) {
-        minutes -= 1;
-        secondsTens = 5;
-        secondsOnes = 9;
-        // Handle seconds
-    }
-    else if (secondsOnes > 0) {
-        secondsOnes -= 1;
-        // Handle when seconds ones place is zero
+    // countdown logic
+    if (seconds === 0) {
+        minutes--;
+        seconds = 59;
     }
     else {
-        secondsOnes = 9;
-        //Update tens place
-        if (secondsTens > 0) {
-            secondsTens -= 1;
-        }
+        seconds--;
     }
     // Update the DOM
-    timerMins.textContent = minutes.toString();
-    timerSecsTens.textContent = secondsTens.toString();
-    timerSecsOnes.textContent = secondsOnes.toString();
+    updateTimer();
 }
+// Entry point
 function init() {
     // update DOM with default values from script
-    timerMins.textContent = minutes.toString();
-    timerSecsTens.textContent = secondsTens.toString();
-    timerSecsOnes.textContent = secondsOnes.toString();
+    updateTimer();
+    // set Event Listeners
+    startButton.addEventListener('click', startTimer);
+    stopButton.addEventListener('click', stopTimer);
+    gear.addEventListener('click', editTimer);
+    check.addEventListener('click', saveEdit);
 }
-// Event Listeners
-startButton.addEventListener('click', startTimer);
-stopButton.addEventListener('click', stopTimer);
-gear.addEventListener('click', editTimer);
-check.addEventListener('click', saveEdit);
 init();
