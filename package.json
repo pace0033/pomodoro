@@ -1,0 +1,22 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "Day 1 of 2021 Advent of JS & Advent of CSS Challenges",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pace0033/pomodoro.git"
+  },
+  "author": "Will P.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pace0033/pomodoro/issues"
+  },
+  "homepage": "https://github.com/pace0033/pomodoro#readme",
+  "devDependencies": {
+    "typescript": "^4.7.2"
+  }
+}

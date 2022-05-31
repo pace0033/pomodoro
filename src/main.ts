@@ -4,26 +4,26 @@
 let secondsOnes = 0;
 let secondsTens = 0;
 let minutes = 15;
-let intervalID;
+let intervalID: number;
 
 const counter = document.querySelector('.timer-text');
 const counterInput = document.querySelector('.timer-input');
-const start = document.querySelector('.start');
-const stop = document.querySelector('.stop');
+const startButton = document.querySelector('.start');
+const stopButton = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
 const check = document.querySelector('.check');
 const timerMins = document.querySelector('.minutes');
 const timerSecsTens = document.querySelector('.seconds-tens');
 const timerSecsOnes = document.querySelector('.seconds-ones');
-const minutesInput = document.getElementById('minutes-input');
-const secondsInput = document.getElementById('seconds-input');
+const minutesInput = (<HTMLInputElement>document.getElementById('minutes-input'));
+const secondsInput = (<HTMLInputElement>document.getElementById('seconds-input'));
 
 // Combines tens and ones place to return a whole number
-function combineSeconds(tens, ones) {
-  return parseFloat(tens.toString() + ones.toString());
+function combineSeconds(tens: number, ones: number) {
+  return parseInt(tens.toString() + ones.toString());
 }
 
-function splitSeconds(seconds) {
+function splitSeconds(seconds: number) {
   let returnArray = [];
 
   returnArray.push(Math.floor(seconds / 10 % 10)); // Tens place index[0]
@@ -33,29 +33,29 @@ function splitSeconds(seconds) {
 }
 
 function startTimer() {
-  start.classList.add('hidden');
-  stop.classList.remove('hidden');
+  startButton.classList.add('hidden');
+  stopButton.classList.remove('hidden');
   countdown();
 }
 
 function stopTimer() {
-  stop.classList.add('hidden');
-  start.classList.remove('hidden');
+  stopButton.classList.add('hidden');
+  startButton.classList.remove('hidden');
   clearInterval(intervalID);
 }
 
 function editTimer() {
   //Hide start button
-  start.classList.add('hidden-opacity');
+  startButton.classList.add('hidden-opacity');
 
   //Update input values with current time
-  minutesInput.value = minutes;
+  minutesInput.value = minutes.toString();
 
   //Set rules to add leading 0 if seconds < 10
   if (secondsTens === 0) {  
     secondsInput.value = '0' + secondsOnes;
   } else {
-    secondsInput.value = combineSeconds(secondsTens, secondsOnes);
+    secondsInput.value = combineSeconds(secondsTens, secondsOnes).toString();
   }
 
   //Update view
@@ -71,19 +71,19 @@ function saveEdit() {
   gear.classList.remove('hidden');
   counterInput.classList.add('hidden');
   counter.classList.remove('hidden');
-  start.classList.remove('hidden-opacity');
+  startButton.classList.remove('hidden-opacity');
 
   //Update JS global variables with input
-  minutes = minutesInput.value;
+  minutes = parseInt(minutesInput.value);
   //Extract tens and ones place of seconds
-  const secondsSplitArr = splitSeconds(secondsInput.value);
+  const secondsSplitArr = splitSeconds(parseInt(secondsInput.value));
   secondsTens = secondsSplitArr[0];
   secondsOnes = secondsSplitArr[1];
 
   // Update the DOM
-  timerMins.textContent = minutes;
-  timerSecsTens.textContent = secondsTens;
-  timerSecsOnes.textContent = secondsOnes;
+  timerMins.textContent = minutes.toString();
+  timerSecsTens.textContent = secondsTens.toString();
+  timerSecsOnes.textContent = secondsOnes.toString();
 }
 
 function countdown() {
@@ -116,22 +116,22 @@ function updateTime() {
   }
 
   // Update the DOM
-  timerMins.textContent = minutes;
-  timerSecsTens.textContent = secondsTens;
-  timerSecsOnes.textContent = secondsOnes;
+  timerMins.textContent = minutes.toString();
+  timerSecsTens.textContent = secondsTens.toString();
+  timerSecsOnes.textContent = secondsOnes.toString();
 }
 
 function init() {
   // update DOM with default values from script
-  timerMins.textContent = minutes;
-  timerSecsTens.textContent = secondsTens;
-  timerSecsOnes.textContent = secondsOnes;
+  timerMins.textContent = minutes.toString();
+  timerSecsTens.textContent = secondsTens.toString();
+  timerSecsOnes.textContent = secondsOnes.toString();
 }
 
 
 // Event Listeners
-start.addEventListener('click', startTimer);
-stop.addEventListener('click', stopTimer);
+startButton.addEventListener('click', startTimer);
+stopButton.addEventListener('click', stopTimer);
 gear.addEventListener('click', editTimer);
 check.addEventListener('click', saveEdit);
 init();
