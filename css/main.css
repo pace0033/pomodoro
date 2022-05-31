@@ -83,8 +83,9 @@ input[type=number] {
   text-align: center;
   padding: 3.5rem;
   border-radius: 10000000rem;
-  background-color: #17171a;
+  background: radial-gradient(#3a393f, #17171A);
   color: #fff;
+  box-shadow: -5px 14px 44px #000, 5px -16px 50px rgba(255,255,255, 0.15);
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;

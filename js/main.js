@@ -1,8 +1,9 @@
 'use strict'
 
+// Default starting values
 let secondsOnes = 0;
 let secondsTens = 0;
-let minutes = 0;
+let minutes = 15;
 let intervalID;
 
 const counter = document.querySelector('.timer-text');
@@ -120,9 +121,17 @@ function updateTime() {
   timerSecsOnes.textContent = secondsOnes;
 }
 
+function init() {
+  // update DOM with default values from script
+  timerMins.textContent = minutes;
+  timerSecsTens.textContent = secondsTens;
+  timerSecsOnes.textContent = secondsOnes;
+}
+
 
 // Event Listeners
 start.addEventListener('click', startTimer);
 stop.addEventListener('click', stopTimer);
 gear.addEventListener('click', editTimer);
 check.addEventListener('click', saveEdit);
+init();
