@@ -11,6 +11,23 @@
   <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
+  <!-- Animated countdown ring derived from: https://css-tricks.com/how-to-create-an-animated-countdown-timer-with-html-css-and-javascript/ -->
+  <svg class="countdown-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="countdown-circle">
+      <circle class="countdown-path-elapsed" cx="50" cy="50" r="45" />
+      <path
+        id="countdown-path-remaining"
+        stroke-dasharray="283"
+        class="countdown-path-remaining green"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
   <div class="timer">
     <div class="timer-input">
       <input type="number" name="minutes-input" id="minutes-input" min="0" max="59" value="0" disabled>
