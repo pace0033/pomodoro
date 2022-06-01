@@ -100,10 +100,8 @@ input[type=number] {
 
 .countdown-path-remaining {
   stroke-width: 0.5rem;
-  /* stroke-linecap: round; */
-  /* transform: rotate(90deg), scale(-1); */
   transform-origin: center;
-  transition: 1s linear all;
+  transition: 0.5s ease-out all;
 }
 
 /* INNER TIMER */

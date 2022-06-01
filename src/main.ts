@@ -20,16 +20,19 @@ function startTimer() {
   // update view
   startButton.classList.add('hidden');
   stopButton.classList.remove('hidden');
-  // set total time
-  TOTAL_TIME = (MINUTES * 60) + SECONDS;
-  console.log(TOTAL_TIME);
+  countdownRing.classList.remove('green');
+  countdownRing.classList.add('red');
   // start counting down
   intervalID = setInterval(countdown, 1000);
 }
 
 function stopTimer() {
+  // update view
   stopButton.classList.add('hidden');
   startButton.classList.remove('hidden');
+  countdownRing.classList.remove('red');
+  countdownRing.classList.add('green');
+  // stop counting down
   clearInterval(intervalID);
 }
 
@@ -112,6 +115,7 @@ function setCircleDashArray() {
 function countdown() {
   // If minutes & seconds reach zero, stop timer
   if (SECONDS === 0 && MINUTES === 0) {
+    countdownRing.setAttribute('stroke-dasharray', '283');
     stopTimer();
     window.alert('Timer has completed!');
     // exit function block if timer has finished
@@ -135,6 +139,9 @@ function countdown() {
 function init() {
   // update DOM with default values from script
   updateTimerText();
+
+  // set total time
+  TOTAL_TIME = (MINUTES * 60) + SECONDS;
 
   // set Event Listeners
   startButton.addEventListener('click', startTimer);
