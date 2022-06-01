@@ -1,7 +1,8 @@
 /* --- GLOBAL VARIABLES --- */
 // Default starting values
-let seconds = 0;
-let minutes = 15;
+let SECONDS = 0;
+let MINUTES = 15;
+let TOTAL_TIME;
 let intervalID;
 // DOM Elements
 const counterInput = document.querySelector('.timer-input');
@@ -11,10 +12,16 @@ const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
 const check = document.querySelector('.check');
+const countdownRing = document.getElementById('countdown-path-remaining');
 /* --- TIMER FUNCTIONS --- */
 function startTimer() {
+    // update view
     startButton.classList.add('hidden');
     stopButton.classList.remove('hidden');
+    // set total time
+    TOTAL_TIME = (MINUTES * 60) + SECONDS;
+    console.log(TOTAL_TIME);
+    // start counting down
     intervalID = setInterval(countdown, 1000);
 }
 function stopTimer() {
@@ -22,20 +29,20 @@ function stopTimer() {
     startButton.classList.remove('hidden');
     clearInterval(intervalID);
 }
-function updateTimer() {
+function updateTimerText() {
     // add leading 0s to seconds input if necessary
-    if (seconds < 10) {
-        secondsInput.value = (seconds === 0) ? '00' : '0' + seconds;
+    if (SECONDS < 10) {
+        secondsInput.value = (SECONDS === 0) ? '00' : '0' + SECONDS;
     }
     else {
-        secondsInput.value = seconds.toString();
+        secondsInput.value = SECONDS.toString();
     }
     // add leading 0s to minutes input if necessary
-    if (minutes < 10) {
-        minutesInput.value = (minutes === 0) ? '00' : '0' + minutes;
+    if (MINUTES < 10) {
+        minutesInput.value = (MINUTES === 0) ? '00' : '0' + MINUTES;
     }
     else {
-        minutesInput.value = minutes.toString();
+        minutesInput.value = MINUTES.toString();
     }
 }
 function editTimer() {
@@ -71,37 +78,49 @@ function saveEdit() {
     if (parseInt(secondsInput.value) > 59)
         secondsInput.value = '59';
     // Update JS global variables with input
-    minutes = parseInt(minutesInput.value);
-    seconds = parseInt(secondsInput.value);
+    MINUTES = parseInt(minutesInput.value);
+    SECONDS = parseInt(secondsInput.value);
+    TOTAL_TIME = (MINUTES * 60) + SECONDS;
     // Remove dotted border under inputs
     minutesInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
     secondsInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
     // Update the DOM
-    updateTimer();
+    updateTimerText();
+    setCircleDashArray();
+}
+function calculateTimeFraction() {
+    const timeRemaining = (MINUTES * 60) + SECONDS;
+    return timeRemaining / TOTAL_TIME;
+}
+function setCircleDashArray() {
+    // console.log((calculateTimeFraction() * 283).toFixed(0));
+    const newDashArray = `${(calculateTimeFraction() * 283).toFixed(0)} 283`;
+    countdownRing.setAttribute('stroke-dasharray', newDashArray);
 }
 function countdown() {
     // If minutes & seconds reach zero, stop timer
-    if (seconds === 0 && minutes === 0) {
+    if (SECONDS === 0 && MINUTES === 0) {
         stopTimer();
         window.alert('Timer has completed!');
         // exit function block if timer has finished
         return;
     }
     // countdown logic
-    if (seconds === 0) {
-        minutes--;
-        seconds = 59;
+    if (SECONDS === 0) {
+        MINUTES--;
+        SECONDS = 59;
     }
     else {
-        seconds--;
+        SECONDS--;
     }
     // Update the DOM
-    updateTimer();
+    updateTimerText();
+    setCircleDashArray();
 }
 // Entry point
 function init() {
     // update DOM with default values from script
-    updateTimer();
+    updateTimerText();
     // set Event Listeners
     startButton.addEventListener('click', startTimer);
     stopButton.addEventListener('click', stopTimer);

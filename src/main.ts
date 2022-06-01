@@ -13,6 +13,7 @@ const startButton = document.querySelector('.start');
 const stopButton = document.querySelector('.stop');
 const gear = document.querySelector('.gear');
 const check = document.querySelector('.check');
+const countdownRing = document.getElementById('countdown-path-remaining');
 
 /* --- TIMER FUNCTIONS --- */
 function startTimer() {
@@ -21,6 +22,7 @@ function startTimer() {
   stopButton.classList.remove('hidden');
   // set total time
   TOTAL_TIME = (MINUTES * 60) + SECONDS;
+  console.log(TOTAL_TIME);
   // start counting down
   intervalID = setInterval(countdown, 1000);
 }
@@ -31,7 +33,7 @@ function stopTimer() {
   clearInterval(intervalID);
 }
 
-function updateTimer() {
+function updateTimerText() {
   // add leading 0s to seconds input if necessary
   if (SECONDS < 10) {
     secondsInput.value = (SECONDS === 0) ? '00' : '0' + SECONDS;  
@@ -85,21 +87,26 @@ function saveEdit() {
   // Update JS global variables with input
   MINUTES = parseInt(minutesInput.value);
   SECONDS = parseInt(secondsInput.value);
+  TOTAL_TIME = (MINUTES * 60) + SECONDS;
 
   // Remove dotted border under inputs
   minutesInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
   secondsInput.style.borderBottom = '3px dotted rgba(255, 255, 255, 0.0)';
 
   // Update the DOM
-  updateTimer();
+  updateTimerText();
+  setCircleDashArray();
 }
 
-function calculateTimeRemaining() {
-
+function calculateTimeFraction() {
+  const timeRemaining = (MINUTES * 60) + SECONDS;
+  return timeRemaining / TOTAL_TIME;
 }
 
 function setCircleDashArray() {
-  
+  // console.log((calculateTimeFraction() * 283).toFixed(0));
+  const newDashArray: string = `${(calculateTimeFraction() * 283).toFixed(0)} 283`;
+  countdownRing.setAttribute('stroke-dasharray', newDashArray);
 }
 
 function countdown() {
@@ -120,13 +127,14 @@ function countdown() {
   }
 
   // Update the DOM
-  updateTimer()
+  updateTimerText();
+  setCircleDashArray();
 }
 
 // Entry point
 function init() {
   // update DOM with default values from script
-  updateTimer();
+  updateTimerText();
 
   // set Event Listeners
   startButton.addEventListener('click', startTimer);
