@@ -39,9 +39,10 @@ function updateTimer() {
     }
 }
 function editTimer() {
-    // Hide start button
-    startButton.classList.add('hidden-opacity');
+    // Stop the timer
+    stopTimer();
     // Update view
+    startButton.classList.add('hidden-opacity');
     gear.classList.add('hidden');
     check.classList.remove('hidden');
     // Add dotted border under inputs
